@@ -102,10 +102,10 @@ jobs:
 
   build_release_freebsd:
     name: Release build (FreeBSD x64, shared Qt 6)
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Build on FreeBSD inside macOS VM
+      - name: Build on FreeBSD inside Ubuntu VM
         id: test
         uses: cross-platform-actions/action@v0.27.0
         with:
