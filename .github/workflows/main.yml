@@ -45,7 +45,7 @@ jobs:
           cd UEFITool
           zip -qry ../../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_universal_mac.zip ./UEFITool.app
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macOS builds
           path: dist/*.zip
@@ -87,7 +87,7 @@ jobs:
           zip -qryj ../UEFITool/dist/UEFIFind_NE_${UEFITOOL_VER}_x64_linux.zip ./UEFIFind/uefifind
           zip -qryj ../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_x64_linux.zip ./UEFITool/uefitool
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Linux builds
           path: dist/*.zip
@@ -124,7 +124,7 @@ jobs:
             zip -qryj ../dist/UEFIFind_NE_${UEFITOOL_VER}_x64_freebsd.zip ./UEFIFind/uefifind
             zip -qryj ../dist/UEFITool_NE_${UEFITOOL_VER}_x64_freebsd.zip ./UEFITool/uefitool
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: FreeBSD builds
           path: dist/*.zip
@@ -206,7 +206,7 @@ jobs:
           UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
           7z a ../../../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_win32.zip UEFITool.exe
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows 32-bit builds
           path: dist/*.zip
@@ -255,7 +255,7 @@ jobs:
           7z a ../UEFITool/dist/UEFIFind_NE_${UEFITOOL_VER}_win64.zip ./UEFIFind/Release/UEFIFind.exe
           7z a ../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_win64.zip ./UEFITool/Release/UEFITool.exe
       - name: Upload to artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows 64-bit builds
           path: dist/*.zip
