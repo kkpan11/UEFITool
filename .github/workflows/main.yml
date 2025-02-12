@@ -364,7 +364,7 @@ jobs:
       #  run: |
       #    sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@4.2.1
+        uses: SonarSource/sonarqube-scan-action@v4.2.1
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ROOT_CERT: ${{ secrets.SONAR_ROOT_CERT }}
