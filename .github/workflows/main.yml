@@ -330,49 +330,6 @@ jobs:
           COVERITY_SCAN_EMAIL: ${{ secrets.COVERITY_SCAN_EMAIL }}
           COVERITY_BUILD_COMMAND: cmake --build .
 
-  build_analyze_linux_pvs_studio_and_codeql:
-    if: github.repository_owner == 'LongSoft' && github.event_name != 'pull_request'
-    name: PVS-Studio and CodeQL Static Analysis (shared Qt 6.5.0)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v3
-        with:
-          version: '6.5.0'
-          host: 'linux'
-          target: 'desktop'
-      - name: Install PVS-Studio
-        run: |
-          wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt \
-            | sudo apt-key add -
-          sudo wget -O /etc/apt/sources.list.d/viva64.list \
-            https://files.pvs-studio.com/etc/viva64.list
-          sudo apt update
-          sudo apt install pvs-studio
-          pvs-studio-analyzer credentials ${{ secrets.PVS_STUDIO_CREDENTIALS }}
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: cpp
-      - name: Build everything
-        run: |
-          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=On -B build .
-          cmake --build build
-      - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
-      - name: Perform PVS-Studio analysis
-        run: |
-          pvs-studio-analyzer analyze -f build/compile_commands.json -j
-      - name: Convert PVS-Studio report
-        run: |
-          plog-converter -t sarif -o pvs-report.sarif PVS-Studio.log
-      - name: Publish PVS-Studio report
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: pvs-report.sarif
-          category: PVS-Studio
-          
   build_analyze_linux_sonarcloud:
     if: github.repository_owner == 'LongSoft' && github.event_name != 'pull_request'
     name: SonarCloud Static Analysis (shared Qt 6.5.0)
