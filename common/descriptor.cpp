@@ -220,6 +220,7 @@ UString jedecIdToUString(UINT8 vendorId, UINT8 deviceId0, UINT8 deviceId1)
         case 0x373016: return UString("AMIC A25L032");
         case 0x374015: return UString("AMIC A25LQ16");
         case 0x374016: return UString("AMIC A25LQ32A");
+        case 0x374017: return UString("AMIC A25LQ64");
 
         // PMC
         case 0x9DF713: return UString("PMC Pm25LV080B");
