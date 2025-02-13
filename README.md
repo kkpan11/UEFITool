@@ -56,9 +56,7 @@ You can either use [pre-built binaries for Windows and macOS](https://github.com
 ## Bug repellents
 
 * [Coverity Scan](https://scan.coverity.com/projects/17209) - static analyzer for C, C++, C#, JavaScript, Ruby, or Python code.
-* [SonarCloud](https://sonarcloud.io/project/overview?id=LongSoft_UEFITool) - cloud-based code analysis service.
-* [PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
-* [CodeQL](https://codeql.github.com/docs/codeql-overview/about-codeql) - code analysis engine developed by GitHub to automate security checks.
+* [SonarCloud](https://sonarcloud.io/project/overview?id=LongSoft_UEFITool) - cloud-based source code analysis service.
 
 ## GUID Database
 
