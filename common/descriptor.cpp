@@ -94,6 +94,7 @@ UString jedecIdToUString(UINT8 vendorId, UINT8 deviceId0, UINT8 deviceId1)
         case 0xC22617: return UString("Macronix MX25L64");
         case 0xC22618: return UString("Macronix MX25L128");
         case 0xC25E16: return UString("Macronix MX25L32");
+        case 0xC27518: return UString("Macronix MX77L12850F");
         case 0xC29517: return UString("Macronix MX25L64");
 
         // Micron
