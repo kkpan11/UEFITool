@@ -326,7 +326,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Fuzzer
-          path: dist/*.zip
+          path: ${{runner.workspace}}/dist/*.zip
 
 # Static Analysis
   build_analyze_linux_coverity:
