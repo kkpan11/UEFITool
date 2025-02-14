@@ -299,7 +299,35 @@ jobs:
         run: |
           cmake -G "MinGW Makefiles" -B build .
           cmake --build build --parallel
-  
+
+  build_test_linux_fuzzer:
+    name: Fuzzer build test (Linux x64)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create build directory
+        run: cmake -E make_directory ${{runner.workspace}}/build
+      - name: Configure everything
+        working-directory: ${{runner.workspace}}/build
+        run: cmake ../UEFITool/fuzzing
+      - name: Build everything
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake -DUSE_AFL=1 --build .
+      - name: Create dist directory
+        run: cmake -E make_directory ${{runner.workspace}}/UEFITool/dist
+      - name: Archive everything
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: |
+          UEFITOOL_VER=$(cat ../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
+          zip -qryj ../UEFITool/dist/ffsparser_fuzzer_NE_${UEFITOOL_VER}_x64_linux.zip ./fuzzing/ffsparser_fuzzer
+      - name: Upload to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Fuzzer Linux build
+          path: dist/*.zip
+
 # Static Analysis
   build_analyze_linux_coverity:
     env:
