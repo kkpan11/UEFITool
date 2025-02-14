@@ -355,11 +355,7 @@ USTATUS decompress(const UByteArray & compressedData, const UINT8 compressionTyp
             // TODO: need to correctly handle non-x86 architecture of the FW image
             // After LZMA decompression, the data need to be converted to the raw data.
             UINT32 state = 0;
-            const UINT8 x86LookAhead = 4;
-            if (decompressedSize != x86LookAhead + x86_Convert(decompressed, decompressedSize, 0, &state, 0)) {
-                free(decompressed);
-                return U_CUSTOMIZED_DECOMPRESSION_FAILED;
-            }
+            z7_BranchConvSt_X86_Dec(decompressed, decompressedSize, 0, &state);
             
             dictionarySize = readUnaligned((UINT32*)(data + 1)); // LZMA dictionary size is stored in bytes 1-4 of LZMA properties header
             decompressedData = UByteArray((const char*)decompressed, (int)decompressedSize);
