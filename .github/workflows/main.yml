@@ -309,7 +309,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
       - name: Configure everything
         working-directory: ${{runner.workspace}}/build
-        run: CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake -DUSE_AFL=1 ../UEFITool/fuzzing
+        run: CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake ../UEFITool/fuzzing
       - name: Build everything
         working-directory: ${{runner.workspace}}/build
         shell: bash
