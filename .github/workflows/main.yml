@@ -301,7 +301,7 @@ jobs:
           cmake --build build --parallel
 
   build_test_linux_fuzzer:
-    name: Fuzzer build test (Linux x64)
+    name: Fuzzer in AFL mode (Linux x64)
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -309,11 +309,11 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
       - name: Configure everything
         working-directory: ${{runner.workspace}}/build
-        run: cmake ../UEFITool/fuzzing
+        run: CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake -DUSE_AFL=1 ../UEFITool/fuzzing
       - name: Build everything
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake -DUSE_AFL=1 --build .
+        run: cmake --build .
       - name: Create dist directory
         run: cmake -E make_directory ${{runner.workspace}}/UEFITool/dist
       - name: Archive everything
