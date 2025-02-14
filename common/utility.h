@@ -70,7 +70,7 @@ INTN findPattern(const UINT8 *pattern, const UINT8 *patternMask, UINTN patternSi
 template <typename T>
 inline T readUnaligned(const T *v) {
     T tmp = {};
-    memcpy(&tmp, v, sizeof(T));
+    memcpy(reinterpret_cast<void*>(&tmp), reinterpret_cast<const void*>(v), sizeof(T));
     return tmp;
 }
 
