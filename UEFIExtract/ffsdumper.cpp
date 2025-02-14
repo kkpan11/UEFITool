@@ -59,7 +59,7 @@ USTATUS FfsDumper::recursiveDump(const UModelIndex & index, const UString & path
         }
 
         if (currentPath != path) {
-            counterHeader = counterBody = counterRaw = counterInfo = 0;
+            counterHeader = counterBody = counterUncData = counterRaw = counterInfo = 0;
             currentPath = path;
         }
 
@@ -68,7 +68,7 @@ USTATUS FfsDumper::recursiveDump(const UModelIndex & index, const UString & path
             && (sectionType == IgnoreSectionType || model->subtype(index) == sectionType)) {
 
             if ((dumpMode == DUMP_ALL || dumpMode == DUMP_CURRENT || dumpMode == DUMP_HEADER)
-                && !model->header(index).isEmpty()) {
+                && !model->hasEmptyHeader(index)) {
                 fileList.insert(index);
 
                 UString filename;
@@ -91,7 +91,7 @@ USTATUS FfsDumper::recursiveDump(const UModelIndex & index, const UString & path
             }
 
             if ((dumpMode == DUMP_ALL || dumpMode == DUMP_CURRENT || dumpMode == DUMP_BODY)
-                && !model->body(index).isEmpty()) {
+                && !model->hasEmptyBody(index)) {
                 fileList.insert(index);
                 UString filename;
                 if (counterBody == 0)
@@ -112,6 +112,28 @@ USTATUS FfsDumper::recursiveDump(const UModelIndex & index, const UString & path
                 dumped = true;
             }
 
+            if ((dumpMode == DUMP_ALL || dumpMode == DUMP_CURRENT || dumpMode == DUMP_UNC_DATA)
+                && !model->hasEmptyUncompressedData(index)) {
+                fileList.insert(index);
+                UString filename;
+                if (counterUncData == 0)
+                    filename = usprintf("%s/unc_data.bin", path.toLocal8Bit());
+                else
+                    filename = usprintf("%s/unc_data_%d.bin", path.toLocal8Bit(), counterUncData);
+                counterUncData++;
+
+                std::ofstream file(filename.toLocal8Bit(), std::ofstream::binary);
+                if (!file) {
+                    printf("Cannot open uncompressed data \"%s\".\n", (const char*)filename.toLocal8Bit());
+                    return U_FILE_OPEN;
+                }
+
+                const UByteArray &data = model->uncompressedData(index);
+                file.write(data.constData(), data.size());
+
+                dumped = true;
+            }
+            
             if (dumpMode == DUMP_FILE) {
                 UModelIndex fileIndex = index;
                 if (model->type(fileIndex) != Types::File) {

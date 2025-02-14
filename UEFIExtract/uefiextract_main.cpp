@@ -42,7 +42,7 @@ void print_usage()
         << "       UEFIExtract imagefile guids  - only generate GUID database, no dump or report needed." << std::endl
         << "       UEFIExtract imagefile GUID_1 ... [ -o FILE_1 ... ] [ -m MODE_1 ... ] [ -t TYPE_1 ... ] -" << std::endl
         << "         Dump only FFS file(s) with specific GUID(s), without report or GUID database." << std::endl
-        << "         Type is section type or FF to ignore. Mode is one of: all, body, header, info, file." << std::endl
+        << "         Type is section type or FF to ignore. Mode is one of: all, body, unc_data, header, info, file." << std::endl
         << "         Return value is a bit mask where 0 at position N means that file with GUID_N was found and unpacked, 1 otherwise." << std::endl;
 }
 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     // Parse input buffer
     result = ffsParser.parse(buffer);
     if (result)
-        return result;
+        return (int)result;
     
     ffsParser.outputInfo();
     
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     else if (argc == 3 && !std::strcmp(argv[2], "guids")) {
         GuidDatabase db = guidDatabaseFromTreeRecursive(&model, model.index(0, 0));
         if (!db.empty()) {
-            return guidDatabaseExportToFile(path + UString(".guids.csv"), db);
+            return (int)guidDatabaseExportToFile(path + UString(".guids.csv"), db);
         }
     }
     // Generate report, no dump or GUID database
@@ -175,6 +175,8 @@ int main(int argc, char *argv[])
                     modes.push_back(FfsDumper::DUMP_ALL);
                 else if (!std::strcmp(arg, "body"))
                     modes.push_back(FfsDumper::DUMP_BODY);
+                else if (!std::strcmp(arg, "unc_data"))
+                    modes.push_back(FfsDumper::DUMP_UNC_DATA);
                 else if (!std::strcmp(arg, "header"))
                     modes.push_back(FfsDumper::DUMP_HEADER);
                 else if (!std::strcmp(arg, "info"))
@@ -208,7 +210,7 @@ int main(int argc, char *argv[])
             }
         }
         
-        return lastError;
+        return (int)lastError;
     }
     
     // If parameters are different, show version and usage information

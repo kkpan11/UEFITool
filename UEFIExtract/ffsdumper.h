@@ -30,6 +30,7 @@ public:
         DUMP_CURRENT,
         DUMP_ALL,
         DUMP_BODY,
+        DUMP_UNC_DATA,
         DUMP_HEADER,
         DUMP_INFO,
         DUMP_FILE
@@ -48,7 +49,7 @@ private:
     TreeModel* model;
     UString currentPath;
     bool dumped;
-    int counterHeader, counterBody, counterRaw, counterInfo;
+    int counterHeader, counterBody, counterUncData, counterRaw, counterInfo;
     std::set<UModelIndex> fileList;
 };
 #endif // FFSDUMPER_H
