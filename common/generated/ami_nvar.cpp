@@ -5,7 +5,7 @@
 
 ami_nvar_t::ami_nvar_t(kaitai::kstream* p__io, kaitai::kstruct* p__parent, ami_nvar_t* p__root) : kaitai::kstruct(p__io) {
     m__parent = p__parent;
-    m__root = this;
+    m__root = this; (void)p__root;
     m_entries = nullptr;
     _read();
 }
@@ -188,7 +188,7 @@ void ami_nvar_t::nvar_entry_t::_clean_up() {
 int32_t ami_nvar_t::nvar_entry_t::offset() {
     if (f_offset)
         return m_offset;
-    m_offset = _io()->pos();
+    m_offset = (int32_t)_io()->pos();
     f_offset = true;
     return m_offset;
 }
@@ -196,7 +196,7 @@ int32_t ami_nvar_t::nvar_entry_t::offset() {
 int32_t ami_nvar_t::nvar_entry_t::end_offset() {
     if (f_end_offset)
         return m_end_offset;
-    m_end_offset = _io()->pos();
+    m_end_offset = (int32_t)_io()->pos();
     f_end_offset = true;
     return m_end_offset;
 }
@@ -292,7 +292,7 @@ ami_nvar_t::nvar_extended_attributes_t* ami_nvar_t::nvar_entry_body_t::extended_
 int32_t ami_nvar_t::nvar_entry_body_t::data_start_offset() {
     if (f_data_start_offset)
         return m_data_start_offset;
-    m_data_start_offset = _io()->pos();
+    m_data_start_offset = (int32_t)_io()->pos();
     f_data_start_offset = true;
     return m_data_start_offset;
 }
@@ -353,7 +353,7 @@ uint8_t ami_nvar_t::nvar_entry_body_t::extended_header_checksum() {
 int32_t ami_nvar_t::nvar_entry_body_t::data_end_offset() {
     if (f_data_end_offset)
         return m_data_end_offset;
-    m_data_end_offset = _io()->pos();
+    m_data_end_offset = (int32_t)_io()->pos();
     f_data_end_offset = true;
     return m_data_end_offset;
 }
